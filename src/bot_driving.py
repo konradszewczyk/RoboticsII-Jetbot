@@ -6,6 +6,11 @@ from pathlib import Path
 import yaml
 import numpy as np
 
+import torch
+
+import torchvision.transforms as transforms
+from torch.utils.data import Dataset
+
 from PUTDriver import PUTDriver
 
 
@@ -20,14 +25,17 @@ class AI:
 
     def preprocess(self, img: np.ndarray) -> np.ndarray:
         ##TODO: preprocess your input image, remember that img is in BGR channels order
-        raise NotImplementedError
-
-        return img
+        #raise NotImplementedError
+        img = np.transpose(img, (2, 0, 1)).astype(np.float32)
+        img = img / 255
+        img = torch.from_numpy(img)
+        img = transforms.functional.normalize(img, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        return img.numpy()
 
     def postprocess(self, detections: np.ndarray) -> np.ndarray:
         ##TODO: prepare your outputs
-        raise NotImplementedError
-
+        #raise NotImplementedError
+        detections = np.clip(detections, -1, 1)
         return detections
 
     def predict(self, img: np.ndarray) -> np.ndarray:
