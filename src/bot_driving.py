@@ -30,13 +30,14 @@ class AI:
         img = img / 255
         img = torch.from_numpy(img)
         img = transforms.functional.normalize(img, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        return img.numpy()
+        img = np.expand_dims(img.numpy(axis=0))
+        return img
 
     def postprocess(self, detections: np.ndarray) -> np.ndarray:
         ##TODO: prepare your outputs
         #raise NotImplementedError
-        detections = np.clip(detections, -1, 1)
-        return detections
+        detections = np.clip(detections, -0.9999, 0.9999)
+        return detections[0]
 
     def predict(self, img: np.ndarray) -> np.ndarray:
         inputs = self.preprocess(img)

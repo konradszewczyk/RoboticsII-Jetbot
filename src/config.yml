@@ -1,9 +1,9 @@
 model:
-  path: '../model/best/squeeze_net.onnx'
+  path: '../models/old/MobileNetV3_small/best.onnx'
 
 robot:
-  max_speed: 0.22
-  max_steering: 0.5
+  max_speed: 0.20
+  max_steering: 0.6
   differential:
     left: 1.0
     right: 1.0
